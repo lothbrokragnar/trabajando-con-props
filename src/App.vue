@@ -1,28 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1><u>Lista de Supermercado</u></h1>
+    <form @submit.prevent="addNewListItem">
+      <label>Tarea </label>
+      <input placeholder="Ingresa nueva tarea" v-model="newListItem">
+      <button type="submit">Añadir</button>
+    </form>
+    <list v-bind:listItems="listItems" @delete-item="deleteItem" @delete-list="deleteList"></list>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import List from './components/List.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name: 'App',
+    components: {
+      List
+    },
+    data() {
+      return {
+        newListItem: '',
+        listItems: [],
+      }
+    },
+    methods: {
+      addNewListItem() {
+        const newItem = this.newListItem
+        const list = this.listItems
+        list.push(newItem)
+      },
+      deleteItem(index) {
+        const list = this.listItems
+        list.splice(index, 1)
+      },
+      deleteList(){
+        this.listItems = []
+      }
+    },
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+li{
+  margin: 10px 0;
 }
 </style>
